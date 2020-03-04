@@ -110,7 +110,20 @@ namespace AmazonPay
             // Text Data Type
             else if (type == DataType.Text)
             {
-                returnString = data;
+                foreach (var item in sanitizeList)
+                {
+                    string maskedValue = "@#" + item + "#@";
+                    int startIndex = data.IndexOf(maskedValue);
+                    if (startIndex > 0)
+                    {
+                        int endIndex = data.LastIndexOf(maskedValue) + (maskedValue.Length);
+                        int length = endIndex - startIndex;
+                        string value = data.Substring(startIndex, length);
+                        data = data.Replace(value, REMOVED_TEXT);
+                    }
+                }
+                System.Text.RegularExpressions.Regex objRegEx = new System.Text.RegularExpressions.Regex("@#[^#@]*#@", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                returnString = objRegEx.Replace(data, ""); 
             }
             return returnString;
         }

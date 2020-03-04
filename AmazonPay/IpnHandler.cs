@@ -156,7 +156,8 @@ namespace AmazonPay
 
             for (int i = 0; i < headers.Count; i++)
             {
-                sb.AppendLine("[Key: " + headers.GetKey(i) + ", Value: " + headers.GetValues(headers.GetKey(i))[0] + "]");
+                string key = headers.GetKey(i);
+                sb.AppendLine("[Key: " + key + ", Value: @#" + key +"#@" + headers.GetValues(headers.GetKey(i))[0] + "@#" + key +"#@]");
             }
             // Logging headers
             LogMessage(sb.ToString(), AmazonPay.SanitizeData.DataType.Text);
